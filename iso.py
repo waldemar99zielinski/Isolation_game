@@ -147,16 +147,6 @@ def bestmove(board):
 
 """
 
-def is_move_legal(px, py, board):
-    if px < 0 or px >= BOARDWIDTH:
-        return False
-    if py < 0 or py >= BOARDHEIGHT:
-        return False
-    if board.get_position(px, py) == AVAILABLE:
-        return True
-
-    return False
-
 
 
     
