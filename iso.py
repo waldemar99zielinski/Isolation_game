@@ -1,13 +1,15 @@
 import random
 import copy
 
-BOARDWIDTH = 7
-BOARDHEIGHT = 7
+f  = open("log1.txt","a")
+
+BOARDWIDTH = 3
+BOARDHEIGHT = 3
 
 PLAYER_1 = 1
 PLAYER_2 = 2
-VOID = 0
-AVAILABLE = 7
+VOID = 4
+AVAILABLE = 0
 
 
 class Board:
@@ -31,6 +33,7 @@ class Board:
         return index%BOARDWIDTH, int(index/BOARDHEIGHT)
 
     def is_move_legal(self, px, py):
+       
         if px < 0 or px >= BOARDWIDTH:
             return False
         if py < 0 or py >= BOARDHEIGHT:
@@ -39,7 +42,7 @@ class Board:
             return True
 
         return False
-    
+
     
 
 
@@ -49,19 +52,44 @@ class Board:
 #     y = index * BOARDHEIGHT
     # new_board.set_position(index, y, AVAILABLE)
     # new_board.set_position(px, py, PLAYER_1)
+def get_value(borad, player):
+    px,py = board.get_index(player)
+    value = 0
+    
+    for x in range(-1,2):
+        #print("x: ",x)
+        for y in range(-1,2):
+            #print("y: ",y)
+            if x == 0 and y == 0:
+                continue
 
-def get_all_possibilities(board, player):
+            elif board.is_move_legal(px + x, py + y):
+                print("value++: ",player,px+x, py+y)
+                value +=1
+    return value
+
+def heuristic(board, max_player):
+    #print('heuristic')
+    board.printArray()
+    #print('player1v: ', get_value(board,PLAYER_1))
+    #print('player1v: ', get_value(board,PLAYER_2))
+    if max_player == PLAYER_1:
+        return get_value(board,PLAYER_1) -  get_value(board,PLAYER_2)
+    else:
+        return get_value(board,PLAYER_2) -  get_value(board,PLAYER_1)
+    
+def get_all_moves(board, player):
     # board.indexof()
     px,py = board.get_index(player)
    
-    print(px, py)
+    #print(px, py)
    
     moves = []
     
     for x in range(-1,2):
-        print("x: ",x)
+        #print("x: ",x)
         for y in range(-1,2):
-            print("y: ",y)
+            #print("y: ",y)
             if x == 0 and y == 0:
                 continue
             #moze
@@ -82,9 +110,28 @@ def get_all_possibilities(board, player):
 
     return moves
 
+def get_all_removals(board):
+    removals = []
+    for y in range(0, board.height):
+        for x in range(0, board.width):
+            if board.get_position(x,y) == AVAILABLE:
+                new_removal = copy.deepcopy(board)
+                new_removal.set_position(x,y,VOID)
+                removals.append(new_removal)
+    
+    return removals
+
+def get_all_possibilities(board, player):
+    possibilities = []
+    player_moves = get_all_moves(board,player)
+    for move in player_moves:
+        possibilities+=get_all_removals(move)
+
+    return possibilities
+"""
 def min_value(board, player):
     v = float('inf')
-    for move in get_all_possibilities(board, player):
+    moves(board, player):
         
 
     return v
@@ -95,64 +142,67 @@ def max_value(board, player):
 
 
     return v; 
+"""
 
 
-
-board = Board(7,7)
+board = Board(BOARDWIDTH,BOARDWIDTH)
 board.set_position(0, 0, PLAYER_1)
-board.set_position(6, 6, PLAYER_2)
+board.set_position(1, 2, PLAYER_2)
 board.printArray()
-forecast_move(board, 2, 2)
+board.set_position(0, 2, VOID)
+print(heuristic(board, PLAYER_1))
 
 
-def gameLoop():
+#removals = get_all_removals(moves[0])
 
-    #setup board
-    while 1:
-        
+pos = get_all_possibilities(board, PLAYER_1)
+#print(get_value(board, PLAYER_1))
 
-"""
+max_player = PLAYER_1
+min_player = PLAYER_2
+def minmax(board, depth, is_max_player):
+    if is_max_player:
+        player = max_player
+    else:
+        player = min_player
+    value = None
+    move = None
+    possible_moves = get_all_possibilities(board, player)
+    if len(possible_moves) > 0:
+        if depth > 0:
+            if is_max_player:
+                print('max')
+                value = float('-inf')
+                #move = None
+                for p in possible_moves:
+                    new_value, new_move = minmax(p, depth-1, False)
+                    if new_value > value:
+                        value = new_value
+                        move = new_move
+                    print('max', value, depth, is_max_player)  
+                    print(move.printArray())
+               
+            else: #minimalize
+                print('min')
+                value = float('inf')
+                #move = None
+                for p in possible_moves:
+                    new_value, new_move = minmax(p, depth-1, True)
+                    if new_value < value:
+                        value = new_value
+                        move = new_move
+                    print('min', value, depth, is_max_player)  
+                    print(move.printArray())
+           
+        else:
+            
+            board.printArray()
+            value = heuristic(board, max_player)
+            #moze byc zle
+            move = board
+        print('zwaracane ', value)
+        return value, move
 
+print(minmax(board, 2, True))
 
-      []
-     / \
-   []   []    []   []    []   []    []   []    []   []    []   []    []   []    []   []    []   [] 8
-/ \ / \ / \ / \
-[4] [2] [6] [8]
-
-
-                        []
-              
-              []  []  []  []   []  []
-
-
-
-7 - 12 - 22
-
-
-value = p1moves-p2moves
-
-def alpha_beta_search(board):
-
-# ocenia wartosc kroku dla nowej tablicy
-def minimax(board, depth, isMax):
-        
-
-#zwraca najlepszy krok gracza
-def bestmove(board):
-
-
-
-
-
-"""
-
-
-
-    
-
-
-
-#print(wow)
-
-
+f.close()
