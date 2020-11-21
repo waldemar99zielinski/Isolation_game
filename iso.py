@@ -145,13 +145,6 @@ def max_value(board, player):
 """
 
 
-board = Board(BOARDWIDTH,BOARDWIDTH)
-
-board.set_position(1, 0, PLAYER_1)
-board.set_position(1, 2, PLAYER_2)
-#board.printArray()
-
-
 """
 #board.set_board([4, 0, 0, 1, 0, 0, 4, 2, 0])
 #board.printArray()
@@ -216,6 +209,13 @@ def minmax(board, depth, player):
             return value, move
 
 
+board = Board(BOARDWIDTH,BOARDWIDTH)
+
+board.set_position(1, 0, PLAYER_1)
+board.set_position(2, 2, PLAYER_2)
+#board.printArray()
+board.set_position(1,1,VOID)
+board.set_position(2,1,VOID)
 
 #print(minmax(board, 2, True))
 board.printArray()
