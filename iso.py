@@ -1,9 +1,9 @@
 import random
 import copy
+import time
 
-
-BOARDWIDTH = 3
-BOARDHEIGHT = 3
+BOARDWIDTH = 5
+BOARDHEIGHT = 5
 
 PLAYER_1 = 1
 PLAYER_2 = 2
@@ -160,6 +160,7 @@ for b in possibilities:
 
 max_player = PLAYER_1
 min_player = PLAYER_2
+counter = 0
 def minmax(board, depth, player):
     value = None
     move = None
@@ -209,13 +210,72 @@ def minmax(board, depth, player):
             return value, move
 
 
+def alphabeta(board, depth, player, alpha, beta):
+    value = None
+    move = None
+    a = alpha
+    b = beta
+    possible_moves = get_all_possibilities(board, player)
+    if len(possible_moves) > 0:
+        if depth > 0:
+            if player == max_player:
+
+                value = float('-inf')
+                move = None
+                for p in possible_moves:
+                    new_value, new_move = alphabeta(p, depth-1, min_player, a, b)
+                    if new_value > value:
+                        value = new_value
+                        move = copy.deepcopy(p)
+                    if new_value >=b:
+                        break
+                    if new_value>a:
+                        a=new_value
+                    #print("player",player, "value", value, "depth", depth, "player", player)
+                    #print(move.printArray())
+            else: #minimalize
+                value = float('inf')
+                move = None
+                for p in possible_moves:
+                    new_value, new_move = alphabeta(p, depth-1, max_player, a, b)
+                    if new_value < value:
+                        value = new_value
+                        move = copy.deepcopy(p)
+                    if new_value <=a:
+                        break
+                    if new_value < b:
+                        b = new_value
+                    #print("player",player,"value", value,"depth", depth,"player", player)
+                    #print(move.printArray())
+        else:
+            #board.printArray()
+            value = heuristic(board, PLAYER_1)
+            move = copy.deepcopy(board)
+
+        #print("player",player,"value", value,"depth", depth,"player", player)
+        #print(move.printArray())
+
+
+    else:
+        #end of the game
+        if player == max_player:
+            value = float('-inf')
+            move = copy.deepcopy(board)
+
+        else:
+            value = float('inf')
+            move = copy.deepcopy(board)
+
+
+    return value, move
+
+
 board = Board(BOARDWIDTH,BOARDWIDTH)
 
-board.set_position(1, 0, PLAYER_1)
-board.set_position(2, 2, PLAYER_2)
+board.set_position(2, 0, PLAYER_1)
+board.set_position(2, 4, PLAYER_2)
 #board.printArray()
-board.set_position(1,1,VOID)
-board.set_position(2,1,VOID)
+
 
 #print(minmax(board, 2, True))
 board.printArray()
@@ -236,9 +296,14 @@ def game(init_board):
     board = copy.deepcopy(init_board)
     playerMoves = get_value(board, players[turn%2])
     while playerMoves > 0:
+
         print("Player: ", players[turn%2])
+        t1 = time.perf_counter()
+        #value, move = alphabeta(board,2, players[turn%2], float('-inf'), float('inf'))
         value, move = minmax(board,2, players[turn%2])
+        t2 = time.perf_counter()
         print("value: ",value)
+        print("time:", t2-t1)
         board=move
         playerMoves = get_value(board, players[turn % 2])
         board.printArray()
