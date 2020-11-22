@@ -7,6 +7,7 @@ def main():
     first_player = getBeginner()
     depth = getDepth()
     board = Board(constants.BOARDWIDTH,constants.BOARDWIDTH)
+    
     board.set_position(0, 0, constants.PLAYER_1)
     board.set_position(constants.BOARDWIDTH - 1, constants.BOARDHEIGHT - 1, constants.PLAYER_2)
     print('xd')

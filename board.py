@@ -20,6 +20,7 @@ class Board:
 
 
     def set_position(self, x, y, value):
+        # print('new position set: ', x, y, ' with value ', value)
         self.array[y*( constants.BOARDWIDTH )+x] = value
 
 

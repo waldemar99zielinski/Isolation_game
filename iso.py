@@ -71,6 +71,7 @@ def get_all_removals(board):
     
     return removals
 
+
 def get_all_possibilities(board, player):
     possibilities = []
     player_moves = get_all_moves(board,player)
@@ -229,13 +230,13 @@ def get_move_coords(move):
     
     if move == 'w':
         px = 0
-        py = 1
+        py = -1
     elif move == 'a':
         px = -1
         py = 0
     elif move == 's':
         px = 0
-        py = -1
+        py = 1
     else:
         px = 1
         py = 0
@@ -251,20 +252,22 @@ def user_turn(board, player):
     while True:
         move = input('Move with WASD: ')[0]
         if set(move.lower()) <= legal_moves:
-            break
+            
+            x, y = get_move_coords(move.lower())
+            px, py = board.get_index(player)
+            print('move coords: ', x, y)
+            print('p coords: ', px , py)
+            print('new pos: ', px + x, px + y)
+            if board.is_move_legal(px + x, py + y):
+                board.set_position(px, py, constants.AVAILABLE)
+                board.set_position(px + x, py + y, player)
+                break
+            else: 
+                print('Incorrect move, try again.')
         else:
             print('Incorrect move, try again.')
     
-    #get position, and dx, dy
-    x, y = get_move_coords(move.lower())
-    px, py = board.get_index(player)
-
-    #move user
-    if board.is_move_legal(px + x, py + y):
-
-        board.set_position(px, py, constants.AVAILABLE)
-        board.set_position(px + x, py + y, player)
-
+    
     #erase a cell on the board
     while True:
         print('input x, y coords to erase from the board')
@@ -274,12 +277,15 @@ def user_turn(board, player):
         if not board.is_move_legal(vx, vy):
             print('incorrect coords')
         else:
+            board.set_position(vx, vy, constants.VOID)
             break
 
-    board.set_position(vx, vy, constants.VOID)
+    
 
 
     return board
+
+
 
 def game(init_board, first_player):
 
@@ -307,38 +313,64 @@ def game(init_board, first_player):
         print('Player: ', constants.PLAYER_1)
         user_turn(board, constants.PLAYER_1)
         turn += 1
+        board.printArray()
 
     #get moves for next player
     playerMoves = get_value(board, players[turn % 2])
-
+    if playerMoves == 0:
+        print('user lost')
+        return
+    
     #proper gameloop
-    while playerMoves > 0:
+    while True:
 
-        print("Player: ", players[turn % 2])
 
+        
+        playerMoves = get_value(board, players[turn % 2])        
+        if playerMoves == 0:
+            # endgame(winner)
+            print('ai lost')
+            break
+        
+        print("(AI) Player: ", players[turn % 2])
         t1 = time.perf_counter()
         #value, move = alphabeta(board,2, players[turn%2], float('-inf'), float('inf'))
         value, move = minmax(board,2, players[turn%2])
         t2 = time.perf_counter()
+
         print("value: ",value)
         print("time:", t2-t1)
+
         board = move
-        playerMoves = get_value(board, players[turn % 2])
         board.printArray()
+
+
+        playerMoves = get_value(board, players[turn % 2])        
         if playerMoves == 0:
             # endgame(winner)
-            print('ai loses')
+            print('ai lost')
             break
         
         #user turn
         turn += 1
-        print('Player: ', players[turn % 2])
-        move = user_turn(board, players[turn % 2])
-        board = move
+
+        #check if user is a loser
         playerMoves = get_value(board, players[turn % 2])
         if playerMoves == 0:
-            # endgame(user)
-            print('user loses')
+            print('user lost')
             break
+
+        print('Player: ', players[turn % 2])
+        
+        move = user_turn(board, players[turn % 2])
+        board = move
+        board.printArray()
+        playerMoves = get_value(board, players[turn % 2])
+
+        if playerMoves == 0:
+            print('user lost')
+            break
+
+        turn += 1
 
 
