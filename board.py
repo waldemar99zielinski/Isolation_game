@@ -5,28 +5,28 @@ class Board:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.array = [constants.AVAILABLE for x in range(constants.BOARDWIDTH*constants.BOARDHEIGHT)] 
+        self.array = [constants.AVAILABLE for x in range(width*height)] 
 
 
     def get_position(self, x, y):
-        return self.array[y*constants.BOARDWIDTH+x]
+        return self.array[y*self.width+x]
 
 
     def printArray(self):
-        for j in range(0,constants.BOARDHEIGHT):
-            for i in range (0, constants.BOARDWIDTH):
-               print(self.array[j*constants.BOARDWIDTH+i], end=" ")
+        for j in range(0,self.height):
+            for i in range (0, self.width):
+               print(self.array[j*self.width+i], end=" ")
             print() 
 
 
     def set_position(self, x, y, value):
         # print('new position set: ', x, y, ' with value ', value)
-        self.array[y*( constants.BOARDWIDTH )+x] = value
+        self.array[y*( self.width )+x] = value
 
 
     def get_index(self, value):
         index = self.array.index(value)
-        return index%constants.BOARDWIDTH, int(index/constants.BOARDHEIGHT)
+        return index%self.width, int(index/self.height)
 
 
     def set_board(self, board):
@@ -35,9 +35,9 @@ class Board:
 
     def is_move_legal(self, px, py):
        
-        if px < 0 or px >= constants.BOARDWIDTH:
+        if px < 0 or px >= self.width:
             return False
-        if py < 0 or py >= constants.BOARDHEIGHT:
+        if py < 0 or py >= self.height:
             return False
         if self.get_position(px, py) == constants.AVAILABLE:
             return True

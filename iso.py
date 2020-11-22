@@ -305,21 +305,27 @@ def game(init_board, first_player):
     board = copy.deepcopy(init_board)
 
 
-    #check if beginning player is able to move
-    playerMoves = get_value(board, constants.PLAYER_1)
+    
+    if first_player == 'u':
+        #check moves before user turn
+        playerMoves = get_value(board, players[turn % 2])
+        if playerMoves == 0:
+            print('user lost')
+            return 'u'
 
-    #make a first move
-    if first_player == 'u' and playerMoves > 0:
         print('Player: ', constants.PLAYER_1)
         user_turn(board, constants.PLAYER_1)
-        turn += 1
         board.printArray()
 
-    #get moves for next player
-    playerMoves = get_value(board, players[turn % 2])
-    if playerMoves == 0:
-        print('user lost')
-        return
+        #check moves at the end of the turn
+        playerMoves = get_value(board, players[turn % 2])
+        if playerMoves == 0:
+            print('user lost')
+            return 'u'
+
+        turn += 1
+
+
     
     #proper gameloop
     while True:
@@ -330,7 +336,7 @@ def game(init_board, first_player):
         if playerMoves == 0:
             # endgame(winner)
             print('ai lost')
-            break
+            return 'c'
         
         print("(AI) Player: ", players[turn % 2])
         t1 = time.perf_counter()
@@ -349,7 +355,7 @@ def game(init_board, first_player):
         if playerMoves == 0:
             # endgame(winner)
             print('ai lost')
-            break
+            return 'c'
         
         #user turn
         turn += 1
@@ -358,7 +364,7 @@ def game(init_board, first_player):
         playerMoves = get_value(board, players[turn % 2])
         if playerMoves == 0:
             print('user lost')
-            break
+            return 'u'
 
         print('Player: ', players[turn % 2])
         
@@ -369,7 +375,7 @@ def game(init_board, first_player):
 
         if playerMoves == 0:
             print('user lost')
-            break
+            return 'u'
 
         turn += 1
 
