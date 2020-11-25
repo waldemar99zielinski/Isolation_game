@@ -75,6 +75,7 @@ class EndStateChecker(unittest.TestCase):
             first_player,
             result
         )
+        
     def testAIvsAI(self):
         '''[ 1 0 0
              0 0 0
@@ -82,7 +83,8 @@ class EndStateChecker(unittest.TestCase):
         '''
         first_player = constants.PLAYER_1
         depth = 2
-        board = Board(3,3)
+        size = 3
+        board = Board(size, size)
         board.set_position(0, 0, constants.PLAYER_1)
         board.set_position(2, 2, constants.PLAYER_2)
         result = gameAI(board, first_player, depth)
@@ -91,6 +93,21 @@ class EndStateChecker(unittest.TestCase):
             result
         )
 
+    def testDepthSizeAI(self):
+        for depth in range(1, 4):
+            for size in range (3, 6):
+                for run in range(1, 6):
+                    with self.subTest('run'):
+                        print('Depth ', depth, ' size ', size, 'x', size, ' run ', run)
+                        board = Board(size, size)
+                        board.set_position(0, 0, constants.PLAYER_1)
+                        board.set_position(size - 1, size - 1, constants.PLAYER_2)
+                        result = gameAI(board, constants.PLAYER_1, depth)
+                        del board
+        self.assertEqual(
+            'c',
+            result
+        )
 
 if __name__ == '__main__':
     unittest.main()

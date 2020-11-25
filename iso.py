@@ -4,6 +4,8 @@ import time
 
 import constants
 
+f = open('alphabeta_different_depth.txt', 'a')
+
 
 def get_value(board, player):
     px,py = board.get_index(player)
@@ -98,7 +100,7 @@ def minmax(board, depth, player):
                 move = None
                 for p in possible_moves:
                     new_value, new_move = minmax(p, depth-1, min_player)
-                    if new_value >= value:
+                    if new_value > value:
                         value = new_value
                         move = copy.deepcopy(p)
                     #print("player",player, "value", value, "depth", depth, "player", player)
@@ -108,7 +110,7 @@ def minmax(board, depth, player):
                 move = None
                 for p in possible_moves:
                     new_value, new_move = minmax(p, depth-1, max_player)
-                    if new_value <= value:
+                    if new_value < value:
                         value = new_value
                         move = copy.deepcopy(p)
 
@@ -126,11 +128,13 @@ def minmax(board, depth, player):
     else:
         #leafs
         if player == max_player:
-            value = float('-inf')
+            # value = float('-inf')
+            value = -10000
             move = copy.deepcopy(board)
             return value,move
         else:
-            value = float('inf')
+            # value = float('inf')
+            value = 10000
             move = copy.deepcopy(board)
             return value, move
 
@@ -216,11 +220,11 @@ def alphabeta(board, depth, player, alpha, beta):
     else:
         #end of the game
         if player == max_player:
-            value = float('-inf')
+            value = -10000
             move = copy.deepcopy(board)
 
         else:
-            value = float('inf')
+            value = 10000
             move = copy.deepcopy(board)
 
 
@@ -247,17 +251,18 @@ def get_move_coords(move):
 def user_turn(board, player):
 
     #read user move
-    print('aaaaa')
     legal_moves = set('wasd')
     while True:
+
         move = input('Move with WASD: ')[0]
         if set(move.lower()) <= legal_moves:
             
             x, y = get_move_coords(move.lower())
             px, py = board.get_index(player)
-            print('move coords: ', x, y)
-            print('p coords: ', px , py)
-            print('new pos: ', px + x, px + y)
+            # print('move coords: ', x, y)
+            # print('p coords: ', px , py)
+            # print('new pos: ', px + x, px + y)
+
             if board.is_move_legal(px + x, py + y):
                 board.set_position(px, py, constants.AVAILABLE)
                 board.set_position(px + x, py + y, player)
@@ -301,7 +306,7 @@ def game(init_board, first_player, depth):
 
     else:
         print('Incorrect player')
-        return 0
+        return '0'
 
 
     turn = 0
@@ -342,8 +347,11 @@ def game(init_board, first_player, depth):
         
         print("(AI) Player: ", players[turn % 2])
         t1 = time.perf_counter()
-        #value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
-        value, move = minmax(board, depth, players[turn%2])
+
+        if constants.ALPHABETA:
+            value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
+        else:
+            value, move = minmax(board, depth, players[turn%2])
         t2 = time.perf_counter()
 
         print("value: ",value)
@@ -380,11 +388,23 @@ def game(init_board, first_player, depth):
         turn += 1
 
 
+def end_ai(board, depth, ai, time):
+
+    print('AI ', ai, ' lost.')
+
+    if constants.DEBUG:
+        x, y = board.get_size()
+        log = str(x) + 'x' + str(y) + ' ' + str(depth) + ' ' + str(time) + '\n'
+        f.write(log)
+
+    return 'c'
+
+
 def gameAI(init_board, first_player, depth):
     
     board = copy.deepcopy(init_board)
     turn = 0
-    # players = [constants.PLAYER_1, constants.PLAYER_2]
+
     if first_player == constants.PLAYER_1:
         players = [constants.PLAYER_1, constants.PLAYER_2]
         max_player = constants.PLAYER_1
@@ -395,25 +415,33 @@ def gameAI(init_board, first_player, depth):
         min_player = constants.PLAYER_1
     
 
+    t1 = time.perf_counter()
+
     while True:
 
-        if get_value(board, players[ turn % 2]) == 0:
+        #no moves left for ai before move
+        if get_value(board, players[turn % 2]) == 0:
             board.printArray()
-            print('AI ', players[turn % 2], ' lost.')
-            return 'c'
+            t2 = time.perf_counter()
+            return end_ai(board, depth, players[turn % 2], t2 - t1)
 
-        #value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
-        value, move = minmax(board, depth, players[turn % 2])
+        if constants.ALPHABETA:
+            value, move = alphabeta(board, depth, players[turn % 2], float('-inf'), float('inf'))
+        else:
+            value, move = minmax(board, depth, players[turn % 2])
+
         board = move
 
-        max_player, min_player = min_player, max_player
 
-        if get_value(board, players[ turn % 2]) == 0:
+        #no moves left for ai after move
+        if get_value(board, players[turn % 2]) == 0:
             board.printArray()
-            print('AI ', players[turn % 2], ' lost.')
-            return 'c'
+            t2 = time.perf_counter()
+            return end_ai(board, depth, players[turn % 2], t2 - t1)
 
-        max_player, min_player = min_player, max_player
+        #swap max, min for next ai XDDDDDDD no pls god no
+        # max_player, min_player = min_player, max_player
 
+        #next ai's turn
         turn += 1
 

@@ -7,7 +7,9 @@ class Board:
         self.height = height
         self.array = [constants.AVAILABLE for x in range(width*height)] 
 
-
+    def get_size(self):
+        return self.width, self.height
+        
     def get_position(self, x, y):
         return self.array[y*self.width+x]
 
@@ -30,7 +32,7 @@ class Board:
 
 
     def set_board(self, board):
-        self.array = board;
+        self.array = board
 
 
     def is_move_legal(self, px, py):
@@ -43,3 +45,5 @@ class Board:
             return True
 
         return False
+    
+    
