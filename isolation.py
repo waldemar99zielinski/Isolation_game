@@ -6,13 +6,14 @@ import iso
 def main():
     first_player = getBeginner()
     depth = getDepth()
-    board = Board(constants.BOARDWIDTH,constants.BOARDWIDTH)
-    
+    # board = Board(constants.BOARDWIDTH,constants.BOARDWIDTH)
+    board = Board(3, 3)
     board.set_position(0, 0, constants.PLAYER_1)
-    board.set_position(constants.BOARDWIDTH - 1, constants.BOARDHEIGHT - 1, constants.PLAYER_2)
+    board.set_position(2, 2, constants.PLAYER_2)
+    # board.set_position(constants.BOARDWIDTH - 1, constants.BOARDHEIGHT - 1, constants.PLAYER_2)
     print('xd')
     board.printArray()
-    iso.game(board, first_player.lower())
+    iso.game(board, first_player.lower(), depth)
 
 
 

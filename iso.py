@@ -287,7 +287,7 @@ def user_turn(board, player):
 
 
 
-def game(init_board, first_player):
+def game(init_board, first_player, depth):
 
     #computer begins
     if first_player == 'c':
@@ -295,9 +295,13 @@ def game(init_board, first_player):
         min_player = constants.PLAYER_2
 
     #user begins
-    else: 
+    elif first_player == 'u': 
         max_player = constants.PLAYER_2
         min_player = constants.PLAYER_1
+
+    else:
+        print('Incorrect player')
+        return 0
 
 
     turn = 0
@@ -331,17 +335,15 @@ def game(init_board, first_player):
     while True:
 
 
-        
-        playerMoves = get_value(board, players[turn % 2])        
-        if playerMoves == 0:
-            # endgame(winner)
+        if get_value(board, players[turn % 2]) == 0:
             print('ai lost')
             return 'c'
+
         
         print("(AI) Player: ", players[turn % 2])
         t1 = time.perf_counter()
-        #value, move = alphabeta(board,2, players[turn%2], float('-inf'), float('inf'))
-        value, move = minmax(board,2, players[turn%2])
+        #value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
+        value, move = minmax(board, depth, players[turn%2])
         t2 = time.perf_counter()
 
         print("value: ",value)
@@ -351,32 +353,67 @@ def game(init_board, first_player):
         board.printArray()
 
 
-        playerMoves = get_value(board, players[turn % 2])        
-        if playerMoves == 0:
-            # endgame(winner)
+        if get_value(board, players[turn % 2]) == 0:
             print('ai lost')
             return 'c'
-        
+
         #user turn
         turn += 1
 
-        #check if user is a loser
-        playerMoves = get_value(board, players[turn % 2])
-        if playerMoves == 0:
+
+        if get_value(board, players[turn % 2]) == 0:
             print('user lost')
             return 'u'
+
 
         print('Player: ', players[turn % 2])
         
         move = user_turn(board, players[turn % 2])
         board = move
         board.printArray()
-        playerMoves = get_value(board, players[turn % 2])
 
-        if playerMoves == 0:
+
+        if get_value(board, players[turn % 2]) == 0:
             print('user lost')
             return 'u'
 
         turn += 1
 
+
+def gameAI(init_board, first_player, depth):
+    
+    board = copy.deepcopy(init_board)
+    turn = 0
+    # players = [constants.PLAYER_1, constants.PLAYER_2]
+    if first_player == constants.PLAYER_1:
+        players = [constants.PLAYER_1, constants.PLAYER_2]
+        max_player = constants.PLAYER_1
+        min_player = constants.PLAYER_2
+    else:
+        players = [constants.PLAYER_2, constants.PLAYER_1]
+        max_player = constants.PLAYER_2
+        min_player = constants.PLAYER_1
+    
+
+    while True:
+
+        if get_value(board, players[ turn % 2]) == 0:
+            board.printArray()
+            print('AI ', players[turn % 2], ' lost.')
+            return 'c'
+
+        #value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
+        value, move = minmax(board, depth, players[turn % 2])
+        board = move
+
+        max_player, min_player = min_player, max_player
+
+        if get_value(board, players[ turn % 2]) == 0:
+            board.printArray()
+            print('AI ', players[turn % 2], ' lost.')
+            return 'c'
+
+        max_player, min_player = min_player, max_player
+
+        turn += 1
 
