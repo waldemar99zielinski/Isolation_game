@@ -6,12 +6,13 @@ import iso
 def main():
     first_player = getBeginner()
     depth = getDepth()
+    x, y = getSize()
     # board = Board(constants.BOARDWIDTH,constants.BOARDWIDTH)
-    board = Board(3, 3)
+    board = Board(x, y)
     board.set_position(0, 0, constants.PLAYER_1)
-    board.set_position(2, 2, constants.PLAYER_2)
+    board.set_position(x - 1, y - 1, constants.PLAYER_2)
     # board.set_position(constants.BOARDWIDTH - 1, constants.BOARDHEIGHT - 1, constants.PLAYER_2)
-    print('xd')
+
     board.printArray()
     iso.game(board, first_player.lower(), depth)
 
@@ -39,5 +40,17 @@ def getDepth():
         else:
             print('Select correct search depth')
 
+
+def getSize():
+    
+    print('Insert board dims: ')
+    while True:
+        x, y = map( int, input().split() )
+        
+        if (x < 2 or y < 2 or x != y):
+            print('Wrong dimensions. Try again.')
+        else:
+            break
+    return x, y
 
 main()
