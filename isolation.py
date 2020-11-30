@@ -1,20 +1,20 @@
 import constants
 from board import Board
-import iso
+from game import game
 
 
 def main():
     first_player = getBeginner()
     depth = getDepth()
     x, y = getSize()
-    # board = Board(constants.BOARDWIDTH,constants.BOARDWIDTH)
+
     board = Board(x, y)
     board.set_position(0, 0, constants.PLAYER_1)
     board.set_position(x - 1, y - 1, constants.PLAYER_2)
-    # board.set_position(constants.BOARDWIDTH - 1, constants.BOARDHEIGHT - 1, constants.PLAYER_2)
 
     board.printArray()
-    iso.game(board, first_player.lower(), depth)
+    
+    game(board, first_player, depth)
 
 
 
@@ -24,7 +24,7 @@ def getBeginner():
     while True:
         player = input('Select who begins the game:\n(U) - user\n(C) - computer\n'  )[0]
         if player.lower() == 'c' or player.lower() == 'u':
-            return player
+            return player.lower()
         else:
             print('Select correct player')
 

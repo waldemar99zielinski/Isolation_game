@@ -8,3 +8,6 @@ AVAILABLE = 0
 
 DEBUG = 0
 ALPHABETA = 1
+
+max_player = PLAYER_1
+min_player = PLAYER_2

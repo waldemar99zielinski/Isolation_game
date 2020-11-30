@@ -1,6 +1,7 @@
 import unittest
 from board import Board
-from iso import get_all_possibilities, game, gameAI
+from game import game, ai_game
+from helpers import get_all_possibilities
 import constants
 
 class EndStateChecker(unittest.TestCase):
@@ -87,14 +88,14 @@ class EndStateChecker(unittest.TestCase):
         board = Board(size, size)
         board.set_position(0, 0, constants.PLAYER_1)
         board.set_position(2, 2, constants.PLAYER_2)
-        result = gameAI(board, first_player, depth)
+        result = ai_game(board, first_player, depth)
         self.assertEqual(
             'c',
             result
         )
 
     def testDepthSizeAI(self):
-        for depth in range(1, 4):
+        for depth in range(1, 2):
             for size in range (3, 6):
                 for run in range(1, 6):
                     with self.subTest('run'):
@@ -102,12 +103,11 @@ class EndStateChecker(unittest.TestCase):
                         board = Board(size, size)
                         board.set_position(0, 0, constants.PLAYER_1)
                         board.set_position(size - 1, size - 1, constants.PLAYER_2)
-                        result = gameAI(board, constants.PLAYER_1, depth)
+                        result = ai_game(board, constants.PLAYER_1, depth)
                         del board
         self.assertEqual(
             'c',
             result
         )
-
 if __name__ == '__main__':
     unittest.main()
