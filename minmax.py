@@ -9,7 +9,9 @@ def minmax(board, depth, player):
     value = None
     move = None
     possible_moves = get_all_possibilities(board, player)
+
     if len(possible_moves) > 0:
+
         if depth > 0:
             if player == constants.max_player:
 
@@ -48,7 +50,7 @@ def minmax(board, depth, player):
             # value = float('-inf')
             value = -10000
             move = copy.deepcopy(board)
-            return value,move
+            return value, move
         else:
             # value = float('inf')
             value = 10000
