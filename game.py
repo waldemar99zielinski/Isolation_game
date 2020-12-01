@@ -21,7 +21,7 @@ def end_game(board, player):
     board.printArray()
 
     #if lost player == ai
-    if player is constants.max_player:
+    if player is constants.MAX_PLAYER:
 
         print('AI Won')
         return 'u'
@@ -85,25 +85,22 @@ def user_turn(board, player):
 
 def game(init_board, first_player, depth):
 
-    #computer begins
+
+    players = [constants.PLAYER_1, constants.PLAYER_2]
+    board = copy.deepcopy(init_board)
+    
+    #variable setup
     if first_player == 'c':
-        constants.max_player = constants.PLAYER_1
-        constants.min_player = constants.PLAYER_2
-
-    #user begins
-    elif first_player == 'u': 
-        constants.max_player = constants.PLAYER_2
-        constants.min_player = constants.PLAYER_1
-
+        #MAX PLAYER is always players[turn % 2] == 0
+        turn = 0
+    elif first_player == 'u':
+        #MIN PLAYER is always players[turn % 2] == 1
+        turn = 1
     else:
         print('Incorrect player')
         return '0'
 
-    print('maxpl: ', constants.max_player)
-    #variable setup
-    turn = 0
-    players = [constants.PLAYER_1, constants.PLAYER_2]
-    board = copy.deepcopy(init_board)
+
 
 
     #game loop
@@ -116,7 +113,7 @@ def game(init_board, first_player, depth):
 
 
         #its not ai's turn
-        if players[turn % 2] is not constants.max_player:
+        if players[turn % 2] is not constants.MAX_PLAYER:
 
             #make a move 
             move = user_turn(board, players[turn % 2])
@@ -157,16 +154,17 @@ def ai_game(init_board, first_player, depth):
     
 
 
-    if first_player == constants.PLAYER_1:
-        players = [constants.PLAYER_1, constants.PLAYER_2]
-        max_player = constants.PLAYER_1
-        min_player = constants.PLAYER_2
-    else:
-        players = [constants.PLAYER_2, constants.PLAYER_1]
-        max_player = constants.PLAYER_2
-        min_player = constants.PLAYER_1
+    # if first_player == constants.PLAYER_1:
+    #     players = [constants.PLAYER_1, constants.PLAYER_2]
+    #     max_player = constants.PLAYER_1
+    #     min_player = constants.PLAYER_2
+    # else:
+    #     players = [constants.PLAYER_2, constants.PLAYER_1]
+    #     max_player = constants.PLAYER_2
+    #     min_player = constants.PLAYER_1
     
     #variable setup
+    players = [constants.PLAYER_1, constants.PLAYER_2]
     board = copy.deepcopy(init_board)
     turn = 0
 
