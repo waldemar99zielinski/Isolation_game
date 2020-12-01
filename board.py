@@ -18,9 +18,25 @@ class Board:
         for j in range(0,self.height):
             for i in range (0, self.width):
                print(self.array[j*self.width+i], end=" ")
-            print() 
+            print()
+
+    def printArrayWithCord(self):
+        print(end="  ")
+        for i in range(0, self.width):
+            print(i, end=" ")
+        print()
+        print(end=" ")
+        for i in range(0, self.width):
+            print("-", end="-")
+        print()
+        for j in range(0,self.height):
+            print(j, end="|")
+            for i in range (0, self.width):
+               print(self.array[j*self.width+i], end=" ")
+            print()
 
 
+    
     def set_position(self, x, y, value):
         # print('new position set: ', x, y, ' with value ', value)
         self.array[y*( self.width )+x] = value
