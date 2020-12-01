@@ -3,7 +3,7 @@ from heuristics import heuristic
 import constants
 import copy
 
-counter = 0
+
 
 def minmax(board, depth, player):
     value = None
@@ -14,7 +14,7 @@ def minmax(board, depth, player):
             if player == constants.max_player:
 
                 value = float('-inf')
-                move = None
+                #move = None
                 for p in possible_moves:
                     new_value, new_move = minmax(p, depth-1, constants.min_player)
                     if new_value > value:
@@ -24,7 +24,7 @@ def minmax(board, depth, player):
                     #print(move.printArray())
             else: #minimalize
                 value = float('inf')
-                move = None
+                #move = None
                 for p in possible_moves:
                     new_value, new_move = minmax(p, depth-1, constants.max_player)
                     if new_value < value:
@@ -35,7 +35,7 @@ def minmax(board, depth, player):
                     #print(move.printArray())
         else:
             #board.printArray()
-            value = heuristic(board, constants.PLAYER_1)
+            value = heuristic(board)
             move = copy.deepcopy(board)
 
         #print("player",player,"value", value,"depth", depth,"player", player)
@@ -128,7 +128,7 @@ def alphabeta(board, depth, player, alpha, beta):
         else:
 
             #board.printArray()
-            value = heuristic(board, constants.PLAYER_1)
+            value = heuristic(board)
             move = copy.deepcopy(board)
 
 
