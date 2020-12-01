@@ -1,5 +1,5 @@
 from helpers import get_move_coords, get_value
-from minmax import minmax, alphabeta
+from algorithms import minmax, alphabeta
 import constants
 import copy
 import time
@@ -18,7 +18,7 @@ def end_ai(board, depth, ai, time):
 
 def end_game(board, current_player, user):
 
-    board.printArray()
+    board.printArrayWithCord()
 
     #if lost player == ai
     if current_player is user:
@@ -66,9 +66,23 @@ def user_turn(board, player):
     while True:
 
         #read cell's coords to be erased
-        print('input x, y coords to erase from the board')
-        vx, vy = map( int, input().split() )
-        
+        print('input fields coords to erase from the board')
+        print('insert x: ')
+
+        vx = input()
+
+        if vx.isnumeric():
+            vx = int(vx)
+        else:
+            print("wrong input")
+            continue
+        print('insert y: ')
+        vy = input()
+        if vy.isnumeric():
+            vy = int(vy)
+        else:
+            print("wrong input")
+            continue
         #try erasing cell
         if board.is_move_legal(vx, vy):
             board.set_position(vx, vy, constants.VOID)
@@ -125,7 +139,7 @@ def game(init_board, first_player, depth):
 
             #timer
             t1 = time.perf_counter()
-
+            print("Computer move, please wait...")
             #if alpha-beta pruning is enabled
             if constants.ALPHABETA:
                 value, move = alphabeta(board, depth, players[turn%2], float('-inf'), float('inf'))
@@ -138,13 +152,9 @@ def game(init_board, first_player, depth):
 
         #copy players move
         board = move
-        board.printArray()
+        board.printArrayWithCord()
 
-        #check if current player lost after this round
-        # if get_value(board, players[turn % 2]) == 0:
-        #     return end_game(board, players[turn % 2], user)
 
-        #next turn
         turn += 1
 
 
