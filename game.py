@@ -141,8 +141,8 @@ def game(init_board, first_player, depth):
         board.printArray()
 
         #check if current player lost after this round
-        if get_value(board, players[turn % 2]) == 0:
-            return end_game(board, players[turn % 2], user)
+        # if get_value(board, players[turn % 2]) == 0:
+        #     return end_game(board, players[turn % 2], user)
 
         #next turn
         turn += 1
@@ -186,22 +186,23 @@ def ai_game(init_board, first_player, depth):
         if get_value(board, players[turn % 2]) == 0:
             t2 = time.perf_counter()
             return end_ai(board, depth, players[turn % 2], t2 - t1)
-
+        move_start = time.perf_counter()
         #if alphabeta pruning is enabled
         if constants.ALPHABETA:
             value, move = alphabeta(board, depth, players[turn % 2], float('-inf'), float('inf'))
         else:
             value, move = minmax(board, depth, players[turn % 2])
 
-        
+        move_end = time.perf_counter()
         #copy move to board
         board = move
 
+        print('Ai {} took {} to move' .format(players[turn % 2], move_end - move_start))
 
         #no moves left for ai after move
-        if get_value(board, players[turn % 2]) == 0:
-            t2 = time.perf_counter()
-            return end_ai(board, depth, players[turn % 2], t2 - t1)
+        # if get_value(board, players[turn % 2]) == 0:
+        #     t2 = time.perf_counter()
+        #     return end_ai(board, depth, players[turn % 2], t2 - t1)
 
 
         #next ai's turn
