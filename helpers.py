@@ -78,16 +78,28 @@ def get_all_possibilities(board, player):
 
 def get_move_coords(move):
     
-    if move == 'w':
+    if move == 'q':
+        px = -1
+        py = -1
+    elif move == 'w':
         px = 0
+        py = -1
+    elif move == 'e':
+        px = 1
         py = -1
     elif move == 'a':
         px = -1
         py = 0
-    elif move == 's':
+    elif move == 'd':
+        px = 1
+        py = 0
+    elif move == 'z':
+        px = -1
+        py = 1
+    elif move == 'x':
         px = 0
         py = 1
     else:
         px = 1
-        py = 0
+        py = 1
     return px, py

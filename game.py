@@ -16,18 +16,18 @@ def end_ai(board, depth, ai, time):
     return 'c'
 
 
-def end_game(board, player):
+def end_game(board, current_player, user):
 
     board.printArray()
 
     #if lost player == ai
-    if player is constants.max_player:
+    if current_player is user:
 
-        print('AI Won')
+        print('User Lost')
         return 'u'
     else:
 
-        print('User won')
+        print('AI Lost')
         return 'c'
 
 
@@ -35,12 +35,12 @@ def end_game(board, player):
 def user_turn(board, player):
 
     
-    legal_moves = set('wasd')
+    legal_moves = set('qweadzxc')
 
     while True:
 
         #first letter input
-        move = input('Move with WASD: ')[0]
+        move = input('Move with\nQWE\nA D\nZXC: ')[0]
 
         #if the letter is in our legal set
         if set(move.lower()) <= legal_moves:
@@ -85,25 +85,22 @@ def user_turn(board, player):
 
 def game(init_board, first_player, depth):
 
-    #computer begins
-    if first_player == 'c':
-        constants.max_player = constants.PLAYER_1
-        constants.min_player = constants.PLAYER_2
 
-    #user begins
-    elif first_player == 'u': 
-        constants.max_player = constants.PLAYER_2
-        constants.min_player = constants.PLAYER_1
-
-    else:
-        print('Incorrect player')
-        return '0'
-
-    print('maxpl: ', constants.max_player)
-    #variable setup
-    turn = 0
     players = [constants.PLAYER_1, constants.PLAYER_2]
     board = copy.deepcopy(init_board)
+    turn = 0
+    #variable setup
+    if first_player == 'c':
+        #MAX PLAYER is always players[turn % 2] == 2
+        user = 2
+    elif first_player == 'u':
+        #MIN PLAYER is always players[turn % 2] == 1
+        user = 1
+    else:
+        print('Incorrect player')
+        return 1
+
+
 
 
     #game loop
@@ -112,11 +109,12 @@ def game(init_board, first_player, depth):
 
         #check if current player lost before this round
         if get_value(board, players[turn % 2]) == 0:
-            return end_game(board, players[turn % 2])
+            print('Player {} val {}' .format(players[turn % 2],get_value(board, players[turn % 2])))
+            return end_game(board, players[turn % 2], user)
 
 
         #its not ai's turn
-        if players[turn % 2] is not constants.max_player:
+        if players[turn % 2] is user:
 
             #make a move 
             move = user_turn(board, players[turn % 2])
@@ -136,15 +134,15 @@ def game(init_board, first_player, depth):
 
             #timer
             t2 = time.perf_counter()
-                
+            print('AI Move:') 
 
         #copy players move
         board = move
         board.printArray()
 
         #check if current player lost after this round
-        if get_value(board, players[turn % 2]) == 0:
-            return end_game(board, players[turn % 2])
+        # if get_value(board, players[turn % 2]) == 0:
+        #     return end_game(board, players[turn % 2], user)
 
         #next turn
         turn += 1
@@ -157,18 +155,27 @@ def ai_game(init_board, first_player, depth):
     
 
 
-    if first_player == constants.PLAYER_1:
-        players = [constants.PLAYER_1, constants.PLAYER_2]
-        max_player = constants.PLAYER_1
-        min_player = constants.PLAYER_2
-    else:
-        players = [constants.PLAYER_2, constants.PLAYER_1]
-        max_player = constants.PLAYER_2
-        min_player = constants.PLAYER_1
+    # if first_player == constants.PLAYER_1:
+    #     players = [constants.PLAYER_1, constants.PLAYER_2]
+    #     max_player = constants.PLAYER_1
+    #     min_player = constants.PLAYER_2
+    # else:
+    #     players = [constants.PLAYER_2, constants.PLAYER_1]
+    #     max_player = constants.PLAYER_2
+    #     min_player = constants.PLAYER_1
     
     #variable setup
+    players = [constants.PLAYER_1, constants.PLAYER_2]
     board = copy.deepcopy(init_board)
-    turn = 0
+    
+    if first_player == constants.PLAYER_1:
+        turn = 0
+    elif first_player == constants.PLAYER_2:
+        turn = 1
+    else:
+        print('Wrong first player')
+        return 1
+
 
     t1 = time.perf_counter()
 
@@ -179,22 +186,23 @@ def ai_game(init_board, first_player, depth):
         if get_value(board, players[turn % 2]) == 0:
             t2 = time.perf_counter()
             return end_ai(board, depth, players[turn % 2], t2 - t1)
-
+        move_start = time.perf_counter()
         #if alphabeta pruning is enabled
         if constants.ALPHABETA:
             value, move = alphabeta(board, depth, players[turn % 2], float('-inf'), float('inf'))
         else:
             value, move = minmax(board, depth, players[turn % 2])
 
-        
+        move_end = time.perf_counter()
         #copy move to board
         board = move
 
+        print('Ai {} took {} to move' .format(players[turn % 2], move_end - move_start))
 
         #no moves left for ai after move
-        if get_value(board, players[turn % 2]) == 0:
-            t2 = time.perf_counter()
-            return end_ai(board, depth, players[turn % 2], t2 - t1)
+        # if get_value(board, players[turn % 2]) == 0:
+        #     t2 = time.perf_counter()
+        #     return end_ai(board, depth, players[turn % 2], t2 - t1)
 
 
         #next ai's turn

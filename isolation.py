@@ -4,17 +4,17 @@ from game import game
 
 
 def main():
-    first_player = getBeginner()
+    beginner = getBeginner()
     depth = getDepth()
-    x, y = getSize()
+    size = getSize()
 
-    board = Board(x, y)
+    board = Board(size, size)
     board.set_position(0, 0, constants.PLAYER_1)
-    board.set_position(x - 1, y - 1, constants.PLAYER_2)
+    board.set_position(size - 1, size - 1, constants.PLAYER_2)
 
     board.printArray()
     
-    game(board, first_player, depth)
+    game(board, beginner, depth)
 
 
 
@@ -43,14 +43,16 @@ def getDepth():
 
 def getSize():
     
-    print('Insert board dims: ')
+    print('Insert board size: ')
     while True:
-        x, y = map( int, input().split() )
+        size = int(input(''))
         
-        if (x < 2 or y < 2 or x != y):
+        if size < 2:
             print('Wrong dimensions. Try again.')
         else:
             break
-    return x, y
+    return size
 
-main()
+
+if '__name__' == '__main__':
+    main()
