@@ -1,0 +1,139 @@
+Size 3x3 Depth 2
+Minmax visits  309
+Minmax visits  156
+Minmax visits  272
+Minmax visits  30
+Minmax visits  5
+
+Size 4x4 Depth 2
+Minmax visits  1563
+Minmax visits  2042
+Minmax visits  2855
+Minmax visits  1702
+Minmax visits  1091
+Minmax visits  400
+Minmax visits  208
+Minmax visits  154
+Minmax visits  108
+Minmax visits  70
+Minmax visits  40
+Minmax visits  18
+Minmax visits  4
+Minmax visits  0
+
+Size 5x5 Depth 2
+Minmax visits  4425
+Minmax visits  7100
+Minmax visits  11347
+Minmax visits  6544
+Minmax visits  6575
+Minmax visits  5244
+Minmax visits  3919
+Minmax visits  2738
+Minmax visits  1809
+Minmax visits  2062
+Minmax visits  1329
+Minmax visits  1107
+Minmax visits  627
+Minmax visits  424
+Minmax visits  310
+Minmax visits  146
+
+Size 3x3 Depth 3
+Minmax visits  5359
+Minmax visits  1421
+Minmax visits  1154
+Minmax visits  48
+Minmax visits  5
+Minmax visits  2
+Minmax visits  0
+
+Size 4x4 Depth 3
+Minmax visits  93147
+Minmax visits  53343
+Minmax visits  62210
+Minmax visits  25908
+Minmax visits  12695
+Minmax visits  4961
+Minmax visits  3252
+Minmax visits  675
+Minmax visits  130
+
+Size 5x5 Depth 3
+Brak
+
+Size 3x3 Depth 2
+Alpha-Beta visits  109
+Alpha-Beta visits  73
+Alpha-Beta visits  75
+Alpha-Beta visits  26
+Alpha-Beta visits  5
+
+Size 4x4 Depth 2
+Alpha-Beta visits  248
+Alpha-Beta visits  1178
+Alpha-Beta visits  363
+Alpha-Beta visits  255
+Alpha-Beta visits  203
+Alpha-Beta visits  100
+Alpha-Beta visits  45
+Alpha-Beta visits  39
+Alpha-Beta visits  33
+Alpha-Beta visits  27
+Alpha-Beta visits  17
+Alpha-Beta visits  12
+Alpha-Beta visits  4
+Alpha-Beta visits  0
+
+Size 5x5 Depth 2
+Alpha-Beta visits  419
+Alpha-Beta visits  4095
+Alpha-Beta visits  744
+Alpha-Beta visits  2643
+Alpha-Beta visits  598
+Alpha-Beta visits  1479
+Alpha-Beta visits  620
+Alpha-Beta visits  1083
+Alpha-Beta visits  307
+Alpha-Beta visits  693
+Alpha-Beta visits  240
+Alpha-Beta visits  400
+Alpha-Beta visits  146
+Alpha-Beta visits  137
+Alpha-Beta visits  83
+Alpha-Beta visits  38
+
+Size 3x3 Depth 3
+Alpha-Beta visits  882
+Alpha-Beta visits  367
+Alpha-Beta visits  217
+Alpha-Beta visits  37
+Alpha-Beta visits  5
+Alpha-Beta visits  2
+Alpha-Beta visits  0
+
+Size 4x4 Depth 3
+Alpha-Beta visits  6255
+Alpha-Beta visits  6962
+Alpha-Beta visits  2756
+Alpha-Beta visits  2952
+Alpha-Beta visits  1348
+Alpha-Beta visits  1143
+Alpha-Beta visits  642
+Alpha-Beta visits  227
+Alpha-Beta visits  29
+
+Size 5x5 Depth 3
+Alpha-Beta visits  20287
+Alpha-Beta visits  25169
+Alpha-Beta visits  23900
+Alpha-Beta visits  27595
+Alpha-Beta visits  24058
+Alpha-Beta visits  12347
+Alpha-Beta visits  8210
+Alpha-Beta visits  4682
+Alpha-Beta visits  9928
+Alpha-Beta visits  2044
+Alpha-Beta visits  1629
+Alpha-Beta visits  882
+Alpha-Beta visits  661
