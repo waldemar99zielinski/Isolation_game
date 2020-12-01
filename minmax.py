@@ -13,12 +13,12 @@ def minmax(board, depth, player):
     if len(possible_moves) > 0:
 
         if depth > 0:
-            if player == constants.max_player:
+            if player == constants.MAX_PLAYER:
 
                 value = float('-inf')
                 #move = None
                 for p in possible_moves:
-                    new_value, new_move = minmax(p, depth-1, constants.min_player)
+                    new_value, new_move = minmax(p, depth-1, constants.MIN_PLAYER)
                     if new_value > value:
                         value = new_value
                         move = copy.deepcopy(p)
@@ -28,7 +28,7 @@ def minmax(board, depth, player):
                 value = float('inf')
                 #move = None
                 for p in possible_moves:
-                    new_value, new_move = minmax(p, depth-1, constants.max_player)
+                    new_value, new_move = minmax(p, depth-1, constants.MAX_PLAYER)
                     if new_value < value:
                         value = new_value
                         move = copy.deepcopy(p)
@@ -46,7 +46,7 @@ def minmax(board, depth, player):
         return value, move
     else:
         #leafs
-        if player == constants.max_player:
+        if player == constants.MAX_PLAYER:
             # value = float('-inf')
             value = -10000
             move = copy.deepcopy(board)
@@ -73,7 +73,7 @@ def alphabeta(board, depth, player, alpha, beta):
         if depth > 0:
 
 
-            if player == constants.max_player:
+            if player == constants.MAX_PLAYER:
 
 
 
@@ -82,7 +82,7 @@ def alphabeta(board, depth, player, alpha, beta):
 
                 for p in possible_moves:
 
-                    new_value, new_move = alphabeta(p, depth-1, constants.min_player, a, b)
+                    new_value, new_move = alphabeta(p, depth-1, constants.MIN_PLAYER, a, b)
 
 
                     if new_value > value:
@@ -109,7 +109,7 @@ def alphabeta(board, depth, player, alpha, beta):
 
                 for p in possible_moves:
 
-                    new_value, new_move = alphabeta(p, depth-1, constants.max_player, a, b)
+                    new_value, new_move = alphabeta(p, depth-1, constants.MAX_PLAYER, a, b)
 
 
                     if new_value < value:
@@ -137,7 +137,7 @@ def alphabeta(board, depth, player, alpha, beta):
 
     else:
         #end of the game
-        if player == constants.max_player:
+        if player == constants.MAX_PLAYER:
             value = -10000
             move = copy.deepcopy(board)
 
