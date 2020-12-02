@@ -20,15 +20,7 @@ class AlgorithmTests(unittest.TestCase):
         board.set_board(b)
         #board.printArrayWithCord()
         value, result = minmax(board, 2, PLAYER_1)
-        """
-        [
-            0, 0, 0, 4, 2,
-            0, 0, 0, 4, 4,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0,
-        ]
-        """
+    
         self.assertEqual(
 
             result.get_position(3, 1),
@@ -49,15 +41,7 @@ class AlgorithmTests(unittest.TestCase):
         board.set_board(b)
         #board.printArrayWithCord()
         value, result = alphabeta(board, 2, PLAYER_1, float('-inf'), float('inf'))
-        """
-        [
-            0, 0, 0, 4, 2,
-            0, 0, 0, 4, 4,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0,
-        ]
-        """
+
         self.assertEqual(
 
             result.get_position(3, 1),
@@ -77,15 +61,7 @@ class AlgorithmTests(unittest.TestCase):
         board.set_board(b)
         # board.printArrayWithCord()
         value, result = minmax(board, 2, PLAYER_2)
-        """
-        [
-            0, 0, 0, 4, 2,
-            0, 0, 0, 4, 4,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0,
-        ]
-        """
+
         self.assertEqual(
 
             result.get_position(2, 1),
@@ -105,15 +81,7 @@ class AlgorithmTests(unittest.TestCase):
         board.set_board(b)
         # board.printArrayWithCord()
         value, result = alphabeta(board, 2, PLAYER_2,float('-inf'), float('inf'))
-        """
-        [
-            0, 0, 0, 4, 2,
-            0, 0, 0, 4, 4,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0,
-        ]
-        """
+
         self.assertEqual(
 
             result.get_position(2, 1),
@@ -134,15 +102,7 @@ class AlgorithmTests(unittest.TestCase):
             board.set_board(b)
             # board.printArrayWithCord()
             value, result = alphabeta(board, 3, PLAYER_1, float('-inf'), float('inf'))
-            """
-            [
-                0, 0, 0, 4, 2,
-                0, 0, 0, 4, 4,
-                0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0,
-                0, 0, 1, 0, 0,
-            ]
-            """
+
             self.assertEqual(
 
                 result.get_position(2, 2),
@@ -162,15 +122,7 @@ class AlgorithmTests(unittest.TestCase):
         board.set_board(b)
         # board.printArrayWithCord()
         value, result = minmax(board, 2, PLAYER_1)
-        """
-        [
-            0, 0, 0, 4, 2,
-            0, 0, 0, 4, 4,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0,
-        ]
-        """
+
         self.assertEqual(
 
             result.get_position(2, 2),
