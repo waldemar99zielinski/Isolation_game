@@ -9,8 +9,13 @@ def main():
     size = getSize()
 
     board = Board(size, size)
-    board.set_position(int(size/2), 0, constants.PLAYER_1)
-    board.set_position(int(size/2), size - 1, constants.PLAYER_2)
+
+    if beginner == 'u':
+        board.set_position(int(size/2), 0, constants.PLAYER_2)
+        board.set_position(int(size/2), size - 1, constants.PLAYER_1)
+    else:
+        board.set_position(int(size/2), 0, constants.PLAYER_1)
+        board.set_position(int(size/2), size - 1, constants.PLAYER_2)
 
     board.printArrayWithCord()
     

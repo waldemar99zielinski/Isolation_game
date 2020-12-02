@@ -70,32 +70,12 @@ class EndStateChecker(unittest.TestCase):
         board = Board(1, 2)
         board.set_position(0, 0, constants.PLAYER_1)
         board.set_position(0, 1, constants.PLAYER_2)
-        # board.printArray()
+
         result = game(board, first_player, depth)
         self.assertEqual(
             first_player,
             result
         )
-        
-    def testAIvsAI(self):
-        '''[ 1 0 0
-             0 0 0
-             0 0 2]
-        '''
-        first_player = constants.PLAYER_1
-        depth = 2
-        size = 3
-        board = Board(size, size)
-        board.set_position(0, 0, constants.PLAYER_1)
-        board.set_position(2, 2, constants.PLAYER_2)
-        result = ai_game(board, first_player, depth)
-        self.assertEqual(
-            'c',
-            result
-        )
-
-
-
 
     def testWrongAI(self):
         first_player = 'xd'
@@ -125,19 +105,7 @@ class EndStateChecker(unittest.TestCase):
             result
         )
 
-    def testAIClassic(self):
-        first_player = 1
-        depth = 2
-        size = 3
-        board = Board(size, size)
-        board.set_position(0, 0, constants.PLAYER_1)
-        board.set_position(size - 1, size - 1, constants.PLAYER_2)
-        result = ai_game(board, first_player, depth)
 
-        self.assertEqual(
-            'c',
-            result
-        )
     
 if __name__ == '__main__':
     unittest.main()
