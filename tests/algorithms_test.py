@@ -121,6 +121,63 @@ class AlgorithmTests(unittest.TestCase):
 
         )
 
+    def testTunnelDefAlphaBeta(self):
+
+            board = Board(5, 5)
+            b = [
+                0, 4, 0, 4, 0,
+                0, 4, 1, 4, 4,
+                0, 4, 0, 4, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 2, 0, 0,
+            ]
+            board.set_board(b)
+            # board.printArrayWithCord()
+            value, result = alphabeta(board, 3, PLAYER_1, float('-inf'), float('inf'))
+            """
+            [
+                0, 0, 0, 4, 2,
+                0, 0, 0, 4, 4,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 1, 0, 0,
+            ]
+            """
+            self.assertEqual(
+
+                result.get_position(2, 2),
+                PLAYER_1
+
+            )
+
+    def testTunnelDefMinMax(self):
+        board = Board(5, 5)
+        b = [
+            0, 4, 0, 4, 0,
+            0, 4, 1, 4, 4,
+            0, 4, 0, 4, 0,
+            0, 0, 0, 0, 0,
+            0, 0, 2, 0, 0,
+        ]
+        board.set_board(b)
+        # board.printArrayWithCord()
+        value, result = minmax(board, 2, PLAYER_1)
+        """
+        [
+            0, 0, 0, 4, 2,
+            0, 0, 0, 4, 4,
+            0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0,
+        ]
+        """
+        self.assertEqual(
+
+            result.get_position(2, 2),
+            PLAYER_1
+
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
